@@ -1,0 +1,32 @@
+.page-item {
+  cursor: pointer;
+  &:hover {
+    background-color: #f8f9fa;
+  }
+  &.active {
+    a {
+      background-color: #308639 !important;
+      border-color: #308639 !important;
+      color: #fff;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    a {
+      color: #6c757d;
+    }
+  }
+}
+.page-link {
+  color: #7dc929;
+  &:hover {
+    color: #308639;
+  }
+  &.disabled {
+    color: #6c757d;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.7rem !important;
+    padding: 0.5rem;
+  }
+}

@@ -1,0 +1,136 @@
+<div class="row mt-5">
+  <div class="col-12 mb-2">
+    <button mat-button routerLink="/characters">
+      <mat-icon>arrow_back</mat-icon>Back
+    </button>
+  </div>
+  @if (loading) {
+  <div class="col-12 d-flex justify-content-center">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  } @if (!loading) {
+  <div class="col-lg-7 col-12 d-flex flex-column">
+    <mat-card class="flex-grow-1">
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title class="fs-3">{{ character.name }}</mat-card-title>
+          <mat-card-subtitle class="mb-4">{{
+            character.species
+          }}</mat-card-subtitle>
+          <mat-card-subtitle
+            class="info-character animate__animated animate__fadeIn animate__delay-1s"
+          >
+            <div>
+              <span>Status: </span><span>{{ character.status }}</span>
+            </div>
+            <hr />
+            <div>
+              <span>Gender: </span><span>{{ character.gender }}</span>
+            </div>
+            <hr />
+            <div>
+              <span>Location: </span
+              ><a (click)="openLocation(character.location?.url)">{{
+                character.location?.name
+              }}</a>
+            </div>
+            <hr />
+            <div>
+              <span># Episodes: </span
+              ><span>{{ character.episode?.length }}</span>
+            </div>
+            <hr />
+            <div>
+              <span># Episodes: </span
+              ><span>{{ character.episode?.length }}</span>
+            </div>
+            <hr />
+            <div>
+              <span>Created: </span><span>{{ character.created | date }}</span>
+            </div>
+            @if (character.type) {
+            <hr />
+            <div>
+              <span>Type: </span><span>{{ character.type }}</span>
+            </div>
+            }
+          </mat-card-subtitle>
+          <img
+            class="animate__animated animate__fadeIn animate__delay-1s d-none d-xl-block"
+            mat-card-xl-image
+            [src]="character.image"
+          />
+          <img
+            class="animate__animated animate__fadeIn animate__delay-1s d-none d-md-block d-lg-none"
+            mat-card-xl-image
+            [src]="character.image"
+          />
+          <img
+            class="animate__animated animate__fadeIn animate__delay-1s d-block d-md-none d-lg-block d-xl-none"
+            mat-card-lg-image
+            [src]="character.image"
+          />
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content
+        class="mt-5 animate__animated animate__fadeIn animate__delay-2s"
+      >
+        @if (charactersRelated.length > 0) {
+        <p class="fw-bolder fs-6">Related</p>
+        <div class="row">
+          @for (characterRelated of charactersRelated; track $index) {
+          <div
+            class="col-xl-4 col-md-6 col-12 mt-3"
+            (click)="goToCharacter(characterRelated.id)"
+          >
+            <mat-card class="card-link">
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title class="fs-6 text-break">{{
+                    characterRelated.name
+                  }}</mat-card-title>
+                  <mat-card-subtitle>{{
+                    characterRelated.species
+                  }}</mat-card-subtitle>
+                  <img mat-card-sm-image [src]="characterRelated.image" />
+                </mat-card-title-group>
+              </mat-card-header>
+              <mat-card-content> </mat-card-content>
+            </mat-card>
+          </div>
+          }
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-lg-5 col-12 mt-5 mt-sm-0 d-flex flex-column">
+    <mat-card class="flex-grow-1">
+      <mat-card-header>
+        <mat-card-title>Episodes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="episode-list-container">
+        <div class="episode-list">
+          @for (episode of episodes; track $index) {
+          <mat-card
+            class="mt-2 card-link animate__animated animate__fadeIn animate__delay-1s"
+            (click)="openEpisode(episode.id)"
+          >
+            <mat-card-header>
+              <mat-card-title class="fs-6">{{ episode.name }}</mat-card-title>
+              <mat-card-subtitle>{{ episode.episode }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div>
+                <span>Air Date: </span
+                ><span class="fw-lighter">{{ episode.air_date }}</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  }
+</div>

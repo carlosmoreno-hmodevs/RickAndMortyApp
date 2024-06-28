@@ -1,0 +1,21 @@
+.character-card {
+  max-width: 100%;
+}
+
+.accordion-container {
+  position: relative;
+  z-index: 999;
+}
+
+.overlay-expansion-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 998;
+}
+
+.character-card {
+  position: relative;
+  z-index: 997;
+}

@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{location.name}}{{episode.name}}</h2>
+@if (loading) {
+<div class="col-12 d-flex justify-content-center">
+  <mat-spinner class="m-5"></mat-spinner>
+</div>
+}
+<mat-dialog-content>
+  @if (!loading) { @if (this.data.dialog === 'location') { Dimension:
+  <span class="fw-bold">{{location.dimension}}</span>
+  <hr />
+  Residents: <span class="fw-bold">{{location.residents?.length}}</span>
+  <hr />
+  Type: <span class="fw-bold">{{location.type}}</span>
+  <hr />
+  Created: <span class="fw-bold">{{location.created | date}}</span> } @if
+  (this.data.dialog === 'episode') { Episode:
+  <span class="fw-bold">{{episode.episode}}</span>
+  <hr />
+  Air date: <span class="fw-bold">{{episode.air_date}}</span>
+  <hr />
+  Characters: <span class="fw-bold">{{episode.characters?.length}}</span>
+  <hr />
+  Created: <span class="fw-bold">{{episode.created | date}}</span>
+  } }
+</mat-dialog-content>

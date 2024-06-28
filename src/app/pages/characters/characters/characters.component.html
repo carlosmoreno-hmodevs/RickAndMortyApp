@@ -1,0 +1,142 @@
+<div class="row my-5">
+  @if (loading) {
+  <div class="col-12 d-flex justify-content-center mb-5">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  } @else {
+  <div
+    class="col-xl-4 col-md-4 col-sm-5 col-12 animate__animated animate__fadeIn animate__delay-2s"
+  >
+    <form [formGroup]="filterForm">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Search</mat-label>
+        <input
+          type="text"
+          placeholder="Search by name"
+          aria-label="Name"
+          matInput
+          formControlName="name"
+          [matAutocomplete]="auto"
+          (keyup.enter)="loadFilteredCharacters(true)"
+          color="warn"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="loadFilteredCharacters(true)"
+        >
+          @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="col-xl-6 col-md-4 col-sm-2 col-5"></div>
+  <div
+    class="col-xl-2 col-md-4 col-sm-5 col-6 mb-3 mb-sm-0 animate__animated animate__fadeIn animate__delay-2s accordion-container"
+  >
+    <mat-expansion-panel hideToggle class="overlay-expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Filters </mat-panel-title>
+        <mat-icon>tune</mat-icon>
+      </mat-expansion-panel-header>
+      <form [formGroup]="filterForm" (ngSubmit)="submitFilter()">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status" placeholder="Status">
+                <mat-option value="alive">Alive</mat-option>
+                <mat-option value="dead">Dead</mat-option>
+                <mat-option value="unknown">Unknown</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Species</mat-label>
+              <input matInput formControlName="species" />
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Type</mat-label>
+              <input matInput formControlName="type" />
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Gender</mat-label>
+              <mat-select formControlName="gender" placeholder="Gender">
+                <mat-option value="female">Female</mat-option>
+                <mat-option value="male">Male</mat-option>
+                <mat-option value="genderless">Genderless</mat-option>
+                <mat-option value="unknown">Unknown</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row justify-content-end mt-2">
+          <div class="col-6">
+            <button class="w-100" mat-button (click)="refreshRoute()">
+              Clear
+            </button>
+          </div>
+          <div class="col-6">
+            <button class="w-100" mat-raised-button type="submit">
+              Filter
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </div>
+
+  } @if (!loading && characters.length > 0) { @for (character of characters;
+  track $index) {
+  <div
+    class="col-6 col-xl-3 col-md-4 mt-5 animate__animated animate__fadeIn animate__delay-2s"
+  >
+    <mat-card class="character-card">
+      <mat-card-header>
+        <mat-card-title>{{ character.name }}</mat-card-title>
+        <mat-card-subtitle>{{ character.species }}</mat-card-subtitle>
+      </mat-card-header>
+      <img
+        class="animate__animated animate__fadeIn animate__delay-5s"
+        mat-card-image
+        [src]="character.image"
+        [alt]="character.name + ' image'"
+      />
+      <mat-card-content> </mat-card-content>
+      <mat-card-actions>
+        <button
+          [routerLink]="['character', character.id]"
+          routerLinkActive="router-link-active"
+          mat-button
+        >
+          View more
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  } } @else if(!loading && characters.length === 0) {
+  <div
+    class="col-12 d-flex justify-content-center animate__animated animate__fadeInUp animate__delay-1s mt-5"
+  >
+    <h2>No characters found</h2>
+  </div>
+  }
+</div>
+@if (charactersResponse?.info?.pages > 1) {
+<div class="row mt-3 justify-content-center">
+  <div class="col-12 d-flex justify-content-center">
+    <app-paginator
+      [totalPages]="charactersResponse?.info?.pages"
+      [currentPage]="currentPage"
+      (changePage)="onChangePage($event)"
+    ></app-paginator>
+  </div>
+</div>
+}
